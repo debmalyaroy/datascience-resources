@@ -1,0 +1,79 @@
+\documentclass{beamer}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usetheme{Warsaw}
+
+\title{ML Background}
+\subtitle{Maximum likelihood etc.}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+  \frametitle{Coin Tossing}
+  \begin{itemize}
+  \item Given a coin, find out $P(heads)$
+  \item I.e. the probability that if you flip it, it lands as `heads' \pause
+  \item Flip it a few times: $H$ $H$ $T$
+  \item $P(heads)=2/3$, no need for Comp 379
+  \item Hmm... is this rigorous?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Bernoulli distribution}
+  \begin{itemize}
+  \item Single binary random variable $x\in\{0,1\}$
+  \item E.g. $x=1$ represents `heads' and $x=0$ represents `tails'
+  \item Probability of $x=1$ denoted by the parameter $\mu$
+  \item So, $p(x=1|\mu) = \mu$ and $p(x=0|\mu) = 1 - \mu$
+  \item The probability distribution over $x$ can be written
+  \end{itemize}
+  \centering
+  $Bern(x|\mu) = \mu^x(1-\mu)^{1-x}$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coin tossing model}
+  \begin{itemize}
+  \item Assume coin flips are independent and identically distributed
+  \item All are separate samples from the Bernoulli distribution (i.i.d.)
+  \item Given data $\mathcal{D} = \{x_1,\ldots,x_N\}$
+  \item Where heads: $x_i=1$ and tails: $x_i=0$
+  \item The \textbf{likelihood} of the data is: \[p(\mathcal{D}|\mu) = \prod_{n=1}^{N} p(x_n|\mu) = \prod_{n=1}^{N} \mu^{x_n} (1-\mu)^{1-x_n} \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Maximum Likelihood Estimation}
+  \begin{itemize}
+  \item Given $\mathcal{D}$ with $H$ heads and $T$ tails
+  \item What should $\mu$ be?
+  \item Maximum Likelihood Estimation (MLE)
+  \item Choose $\mu$ which maximizes the likelihood of the data
+    \[ \mu_{ML} = \arg \max_{\mu} p(\mathcal{D}|\mu) \]
+  \item Since $\ln(\cdot)$ is monotonically increasing:
+     \[ \mu_{ML} = \arg \max_{\mu} \ln p(\mathcal{D}|\mu) \]
+  \end{itemize}
+  \tiny
+  \textbf{NOTE:} A monotonically increasing function is one that increases as $x$ does for all real $x$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Maximum Likelihood Estimation}
+  \begin{itemize}
+  \item Likelihood
+    \[ p(\mathcal{D}|\mu) = \prod_{n=1}^{N} \mu^{x_n} (1-\mu)^{1-x_n} \]
+  \item Log-likelihood
+    \[ \ln p(\mathcal{D}|\mu) = \sum_{n=1}^{N} x_n \ln \mu + (1-x_n) \ln (1-\mu) \]
+  \item Take the derivative and set to 0 \pause
+    \[ \frac{d}{d \mu } \ln p(\mathcal{D}|\mu) = \sum_{n=1}^{N} x_n \frac{1}{\mu} - (1-x_n) \frac{1}{1-\mu}  = \frac{1}{\mu} H - \frac{1}{1-\mu} T \]
+    \[ \mu = \frac{H}{T + H} \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\textbf{Acknowledgements:} Slides based on the latex source provided by Oliver Schulte and Greg Mori (Simon Fraser University)
+\end{frame}
+
+\end{document}
